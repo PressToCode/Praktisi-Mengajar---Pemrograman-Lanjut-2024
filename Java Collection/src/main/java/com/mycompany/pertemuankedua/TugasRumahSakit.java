@@ -6,6 +6,7 @@ package com.mycompany.pertemuankedua;
 
 import java.util.ArrayDeque;
 import java.util.Queue;
+import java.util.Scanner;
 
 /**
  *
@@ -16,7 +17,20 @@ public class TugasRumahSakit {
        // FIFO
        Queue<String> namaPasien = new ArrayDeque<>();
        
-       // Input Nama Pasien
+       // Implementasi scanner untuk user-input
+       Scanner input = new Scanner(System.in);
+       while(true) {
+           System.out.print("Input nama pasien: ");
+           namaPasien.offer(input.nextLine());
+           
+           System.out.println();
+           System.out.println("Berhenti input? (Y to stop)");
+           if(input.nextLine().equalsIgnoreCase("Y")) {
+               break;
+           }
+       }
+       
+       // Pasien yang datang setelahnya
        namaPasien.offer("Olfat Faiz");
        namaPasien.offer("Wedanta");
        namaPasien.offer("Andrean");
