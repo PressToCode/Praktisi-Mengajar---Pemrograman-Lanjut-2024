@@ -22,7 +22,7 @@ public class TugasRumahSakit {
        namaPasien.offer("Andrean");
        
        // Output Nama Pasien
-       System.out.println("Nama Pasien yang terdaftar:");
+       System.out.println("Nama Pasien dalam antrian:");
        int i = 1;
        for(String next = namaPasien.poll(); next != null; next = namaPasien.poll()) {
            System.out.print(i + ") "); 
