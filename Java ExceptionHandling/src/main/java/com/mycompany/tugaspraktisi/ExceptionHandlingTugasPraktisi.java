@@ -43,7 +43,7 @@ public class ExceptionHandlingTugasPraktisi {
             switch(pilihan) {
                 case 1:
                     // Output Nama Pasien
-                    if(namaPasien.size() != 0) {
+                    if(!namaPasien.isEmpty()) {
                         System.out.println();
                         System.out.println("Nama Pasien dalam antrian:");
                         namaPasien.forEach((n) -> print(n));
