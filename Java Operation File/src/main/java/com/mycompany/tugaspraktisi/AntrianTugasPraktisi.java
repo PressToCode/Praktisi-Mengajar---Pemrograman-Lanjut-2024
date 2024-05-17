@@ -31,6 +31,12 @@ public class AntrianTugasPraktisi {
         namaPasien.offer("Wedanta");
         namaPasien.offer("Andrean");
         
+        // Menyimpan tanggal antrian
+        Queue<Date> tanggal = new ArrayDeque<>();
+        for(int i = 0; i < 3; i++) {
+            tanggal.offer(new Date());
+        }
+        
         // saveFile Object
         File saveFile = new File("savedData.txt");
         
@@ -58,7 +64,11 @@ public class AntrianTugasPraktisi {
                         System.out.println();
                         System.out.println("Nama Pasien dalam antrian:");
                         count = 0;
-                        namaPasien.forEach((n) -> print(n));
+                        namaPasien.forEach((n) -> 
+                        {
+                            print(n);
+                            tanggal.offer(new Date());
+                        });
                         System.out.println();   
                     } else {
                         System.out.println("- Antrian kosong -");
@@ -70,6 +80,7 @@ public class AntrianTugasPraktisi {
                     menu2: while(true) {
                         System.out.print("Input nama pasien: ");
                         namaPasien.offer(input.nextLine());
+                        tanggal.offer(new Date());
 
                         System.out.println();
                         while(true) {
@@ -89,15 +100,25 @@ public class AntrianTugasPraktisi {
                     }
                     break;
                 case 3:
+                    System.out.println("\n" + namaPasien.poll() + " dipanggil\n");
+                    tanggal.poll();
+                    break;
+                case 4:
                     try {
                         namaPasien.remove();
+                        tanggal.remove();
                         System.out.println("Berhasil menghapus antrian");
                     } catch(NoSuchElementException e) {
                         System.out.println("List kosong, tidak bisa hapus");
                     }
                     break;
-                case 4:
+                case 5:
                     // Implementasi io.file
+                    Queue<Date> tanggalDuplicate = new ArrayDeque<>();;
+                    if(tanggalDuplicate.isEmpty()) {
+                        tanggalDuplicate.addAll(tanggal);
+                    }
+                    
                     if(!saveFile.exists()) {
                         try {
                             saveFile.createNewFile();
@@ -110,11 +131,11 @@ public class AntrianTugasPraktisi {
                     try {
                         PrintWriter writer = new PrintWriter(saveFile);
                         count = 0;
+                        writer.println("\nNama Pasien dalam antrian:");
                         namaPasien.forEach((n) -> 
                         {
                             count++;
-                            writer.println("\nNama Pasien dalam antrian:");
-                            writer.println(count + ") " + n + " [" + new Date() + "]"); 
+                            writer.println(count + ") " + n + " [" + tanggalDuplicate.poll() + "]");
                             writer.flush();
                         });
                         System.out.println("Data berhasil disimpan");
@@ -122,7 +143,7 @@ public class AntrianTugasPraktisi {
                         System.out.println("Gagal mengisi data, file tidak ditemukan");
                     }
                     break;
-                case 5:
+                case 6:
                     try {
                         FileReader reader = new FileReader(saveFile);
                         BufferedReader read = new BufferedReader(reader);
@@ -139,7 +160,7 @@ public class AntrianTugasPraktisi {
                         System.out.println("File save tidak ditemukan");
                     }
                     break;
-                case 6:
+                case 7:
                     break run;
                 default:
                     System.out.print("Hanya menerima input angka 1-4. Ulangi!");
@@ -152,10 +173,11 @@ public class AntrianTugasPraktisi {
             System.out.println("\n---[ Menu ]---");
             System.out.println("1) Lihat Antrian");
             System.out.println("2) Tambah Antrian");
-            System.out.println("3) Hapus Antrian");
-            System.out.println("4) Simpan Data");
-            System.out.println("5) Lihat Data");
-            System.out.println("6) Hentikan Program");
+            System.out.println("3) Panggil Pasien");
+            System.out.println("4) Hapus Antrian");
+            System.out.println("5) Simpan Data");
+            System.out.println("6) Lihat Data");
+            System.out.println("7) Hentikan Program");
     }
     
     static void print(String n) {
