@@ -105,8 +105,8 @@ public class AntrianTugasPraktisi {
                     break;
                 case 4:
                     try {
-                        namaPasien.remove();
-                        tanggal.remove();
+                        namaPasien.removeAll(namaPasien);
+                        tanggal.removeAll(tanggal);
                         System.out.println("Berhasil menghapus antrian");
                     } catch(NoSuchElementException e) {
                         System.out.println("List kosong, tidak bisa hapus");
