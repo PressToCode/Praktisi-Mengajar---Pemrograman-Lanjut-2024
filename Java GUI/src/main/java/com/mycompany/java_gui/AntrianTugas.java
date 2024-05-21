@@ -4,12 +4,29 @@
  */
 package com.mycompany.java_gui;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayDeque;
+import java.util.Date;
+import java.util.Queue;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author PREDATOR
  */
 public class AntrianTugas extends javax.swing.JFrame {
-
+    // Tambahan Attribute
+    Queue<String> namaPasien = new ArrayDeque<>();
+    Queue<String> riwayat = new ArrayDeque<>();
+    Queue<Date> tanggal = new ArrayDeque<>();
+    static int count = 1;
+    
+    
     /**
      * Creates new form AntrianTugas
      */
@@ -28,61 +45,145 @@ public class AntrianTugas extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jTextField1 = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
+        jLabel6 = new javax.swing.JLabel();
+        fieldTambahAntrian = new javax.swing.JTextField();
+        buttonTambahAntrian = new javax.swing.JButton();
+        simpanData = new javax.swing.JButton();
+        loadData = new javax.swing.JButton();
+        panggilPasien = new javax.swing.JButton();
+        reset = new javax.swing.JButton();
+        labelPanggil = new javax.swing.JLabel();
+        labelPesan = new javax.swing.JLabel();
+        riwayatAntrian = new javax.swing.JScrollPane();
+        riwayatAntrianText = new javax.swing.JTextArea();
+        dalamAntrian = new javax.swing.JScrollPane();
+        dalamAntrianText = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI Black", 1, 14)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Aplikasi Antrian Rumah Sakit");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
-
-        jTextField1.setText("jTextField1");
-
         jLabel2.setText("Sedang Dipanggil:");
 
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Dalam Antrian");
 
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Riwayat Antrian");
 
-        jTextArea2.setColumns(20);
-        jTextArea2.setRows(5);
-        jScrollPane2.setViewportView(jTextArea2);
+        jLabel6.setText("Tambah Antrian:");
+
+        fieldTambahAntrian.setToolTipText("");
+        fieldTambahAntrian.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fieldTambahAntrianActionPerformed(evt);
+            }
+        });
+
+        buttonTambahAntrian.setText("Submit");
+        buttonTambahAntrian.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonTambahAntrianActionPerformed(evt);
+            }
+        });
+
+        simpanData.setText("Save Data");
+        simpanData.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                simpanDataActionPerformed(evt);
+            }
+        });
+
+        loadData.setText("Load Data");
+        loadData.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loadDataActionPerformed(evt);
+            }
+        });
+
+        panggilPasien.setText("Panggil Pasien");
+        panggilPasien.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                panggilPasienActionPerformed(evt);
+            }
+        });
+
+        reset.setBackground(new java.awt.Color(255, 0, 0));
+        reset.setForeground(new java.awt.Color(0, 0, 0));
+        reset.setText("Reset");
+        reset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                resetActionPerformed(evt);
+            }
+        });
+
+        labelPanggil.setText("...");
+
+        labelPesan.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelPesan.setText("...");
+
+        riwayatAntrian.setFocusable(false);
+
+        riwayatAntrianText.setEditable(false);
+        riwayatAntrianText.setColumns(20);
+        riwayatAntrianText.setRows(5);
+        riwayatAntrianText.setFocusable(false);
+        riwayatAntrian.setViewportView(riwayatAntrianText);
+
+        dalamAntrian.setFocusable(false);
+
+        dalamAntrianText.setEditable(false);
+        dalamAntrianText.setColumns(20);
+        dalamAntrianText.setRows(5);
+        dalamAntrianText.setFocusable(false);
+        dalamAntrian.setViewportView(dalamAntrianText);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(28, 28, 28)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addGap(27, 27, 27)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(jLabel2)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(27, 27, 27)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(27, Short.MAX_VALUE))
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(labelPanggil, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(panggilPasien)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(simpanData)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(loadData))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fieldTambahAntrian)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(buttonTambahAntrian, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(reset, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(labelPesan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(dalamAntrian))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(riwayatAntrian)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGap(38, 38, 38))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -91,24 +192,39 @@ public class AntrianTugas extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
+                    .addComponent(jLabel2)
+                    .addComponent(labelPanggil))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(67, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(riwayatAntrian, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
+                    .addComponent(dalamAntrian))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(panggilPasien)
+                    .addComponent(simpanData)
+                    .addComponent(loadData)
+                    .addComponent(reset))
+                .addGap(12, 12, 12)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(fieldTambahAntrian, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(buttonTambahAntrian))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(labelPesan)
+                .addGap(11, 11, 11))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 5, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -116,8 +232,217 @@ public class AntrianTugas extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void fieldTambahAntrianActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldTambahAntrianActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fieldTambahAntrianActionPerformed
+
+    private void buttonTambahAntrianActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonTambahAntrianActionPerformed
+        if(!fieldTambahAntrian.getText().isBlank()) {
+            namaPasien.add(fieldTambahAntrian.getText());
+            tanggal.add(new Date());
+            updateTampilan();
+            fieldTambahAntrian.setText("");
+            labelPesan.setText("Berhasil menambah antrian!");
+        } else {
+            labelPesan.setText("Field kosong! gagal menambah antrian!");
+        }
+    }//GEN-LAST:event_buttonTambahAntrianActionPerformed
+
+    private void simpanDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_simpanDataActionPerformed
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Pilih tempat save data!");
+        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        int save = fileChooser.showSaveDialog(null);
+        if (save == JFileChooser.APPROVE_OPTION) {
+            File chosenDirectory = fileChooser.getSelectedFile();
+            File txtFile = new File(chosenDirectory, "savedData.txt");
+            
+            if(!txtFile.exists()) {
+                try {
+                    txtFile.createNewFile();
+                } catch (IOException e) {
+                    javax.swing.JOptionPane.showMessageDialog(null, "Gagal membuat save file!");
+                }
+            }
+            
+            try {
+                PrintWriter writer = new PrintWriter(txtFile);
+                writer.print("Sedang Dipanggil: ");
+                writer.println(labelPanggil.getText());
+                writer.flush();
+                
+                Queue<Date> tanggalDuplicate = new ArrayDeque<>();
+                tanggalDuplicate.removeAll(tanggalDuplicate);
+                tanggalDuplicate.addAll(tanggal);
+                count = 0;
+                writer.println("\nNama Pasien dalam antrian:");
+                namaPasien.forEach((n) -> 
+                    {
+                        count++;
+                        writer.println(count + ") " + n + " [" + tanggalDuplicate.poll() + "]");
+                        writer.flush();
+                    });
+                
+                tanggalDuplicate.removeAll(tanggalDuplicate);
+                tanggalDuplicate.addAll(tanggal);
+                writer.println("\n\nRiwayat:");
+                count = 1;
+                riwayat.forEach((n) -> 
+                    {
+                        count++;
+                        writer.println("- " + n + " [" + tanggalDuplicate.poll() + "]");
+                        writer.flush();
+                    });
+                writer.close();
+                javax.swing.JOptionPane.showMessageDialog(null, "Save File berhasil disimpan");
+            } catch (IOException e) {
+                javax.swing.JOptionPane.showMessageDialog(null, "Save File gagal disimpan");
+            }
+        }
+    }//GEN-LAST:event_simpanDataActionPerformed
+
+    private void loadDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadDataActionPerformed
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Pilih tempat save data untuk dijalankan!");
+        fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Text files", "txt"));
+        int save = fileChooser.showOpenDialog(null);
+        if (save == JFileChooser.APPROVE_OPTION) {
+            File chosenFile = fileChooser.getSelectedFile();
+            
+            try {
+                FileReader reader = new FileReader(chosenFile);
+                BufferedReader read = new BufferedReader(reader);
+                try {
+                    String x = read.readLine();
+                    while(x != null) {
+                        if(x.contains("Sedang Dipanggil:")) {
+                            labelPanggil.setText(x.substring(x.indexOf(":"), x.length()));
+                        }
+                        if(x.contains("Nama Pasien dalam antrian:")) {
+                            count = 1;
+                            while(true) {
+                                x = read.readLine();
+                                try {
+                                    if(Character.isDigit(x.charAt( 0 ))) {
+                                        if(count == 1) {
+                                            dalamAntrianText.setText(x);
+                                        } else {
+                                            dalamAntrianText.append("\n" + x);
+                                        }
+                                        count++;
+                                    } else {
+                                        break;
+                                    }
+                                } catch (Exception e) {
+                                    break;
+                                }
+                                
+                            }
+                        } else if(x.contains("Riwayat:")) {
+                            count = 1;
+                            while(true) {
+                                x = read.readLine();
+                                if(x != null) {
+                                    if(x.contains("-")) {
+                                        if(count == 1) {
+                                            riwayatAntrianText.setText(x);
+                                        } else {
+                                            riwayatAntrianText.append("\n" + x);
+                                        }
+                                        count++;
+                                    }
+                                } else {
+                                    break;
+                                }
+                            }
+                        } else {
+                            x = read.readLine();
+                        }
+                    }
+                } catch (IOException ex) {
+                    javax.swing.JOptionPane.showMessageDialog(null, "gagal load save file!");
+                }
+                reader.close();
+                javax.swing.JOptionPane.showMessageDialog(null, "Berhasil load file!");
+            } catch (IOException e) {
+                javax.swing.JOptionPane.showMessageDialog(null, "gagal load file!");
+            }
+        }
+    }//GEN-LAST:event_loadDataActionPerformed
+
+    private void panggilPasienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_panggilPasienActionPerformed
+        // TODO add your handling code here:
+        try {
+            if(!labelPanggil.getText().equals("...")) {
+                riwayat.add(labelPanggil.getText());
+                updateRiwayat();
+            }
+            if(namaPasien.isEmpty()) {
+                if(labelPanggil.getText().equals("...")) {
+                    labelPanggil.setText("...");
+                    labelPesan.setText("Antrian tidak tersedia / gagal");
+                } else {
+                    labelPanggil.setText("...");
+                    labelPesan.setText("...");
+                }
+            } else {
+                labelPanggil.setText(namaPasien.peek());
+                labelPesan.setText(namaPasien.poll() + " Berhasil dipanggil!");
+                updateTampilan();
+            }
+        } catch(Exception e) {
+            labelPanggil.setText("...");
+            labelPesan.setText("Antrian tidak tersedia / gagal");
+        }
+    }//GEN-LAST:event_panggilPasienActionPerformed
+
+    private void resetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetActionPerformed
+        if(javax.swing.JOptionPane.showConfirmDialog(null, "Apakah anda yakin untuk mengulang program dari awal?", "Reset antrian?", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == 0) {
+            namaPasien.removeAll(namaPasien);
+            riwayat.removeAll(riwayat);
+            tanggal.removeAll(tanggal);
+            dalamAntrianText.setText(null);
+            riwayatAntrianText.setText(null);
+            labelPesan.setText("...");
+            labelPanggil.setText("...");
+        }
+    }//GEN-LAST:event_resetActionPerformed
+
+    private void updateTampilan() {
+        Queue<Date> tanggalDuplicate = new ArrayDeque<>();
+        if(tanggalDuplicate.isEmpty()) {
+            tanggalDuplicate.addAll(tanggal);
+        }
+        dalamAntrianText.setText(null);
+        count = 1;
+        namaPasien.forEach((n) -> {
+            if(count == 1) {
+                dalamAntrianText.setText(count + ") " + n + " [ " + tanggalDuplicate.poll() + " ]");
+            } else {
+                dalamAntrianText.append("\n" + count + ") " + n + " [ " + tanggalDuplicate.poll() + " ]");
+            }
+            count++;
+        });
+    }
+    
+    private void updateRiwayat() {
+        Queue<Date> tanggalDuplicate = new ArrayDeque<>();
+        tanggalDuplicate.removeAll(tanggalDuplicate);
+        tanggalDuplicate.addAll(tanggal);
+        riwayatAntrianText.setText(null);
+        count = 1;
+        riwayat.forEach((n) -> {
+            if(count == 1) {
+                riwayatAntrianText.setText("- " + n + " [ " + tanggalDuplicate.poll() + " ]");
+            } else {
+                riwayatAntrianText.append("\n- " + n + " [ " + tanggalDuplicate.poll() + " ]"); 
+            }
+            count++;
+        });
+    }
     /**
      * @param args the command line arguments
      */
@@ -154,15 +479,23 @@ public class AntrianTugas extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton buttonTambahAntrian;
+    private javax.swing.JScrollPane dalamAntrian;
+    private javax.swing.JTextArea dalamAntrianText;
+    private javax.swing.JTextField fieldTambahAntrian;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextArea jTextArea2;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JLabel labelPanggil;
+    private javax.swing.JLabel labelPesan;
+    private javax.swing.JButton loadData;
+    private javax.swing.JButton panggilPasien;
+    private javax.swing.JButton reset;
+    private javax.swing.JScrollPane riwayatAntrian;
+    private javax.swing.JTextArea riwayatAntrianText;
+    private javax.swing.JButton simpanData;
     // End of variables declaration//GEN-END:variables
 }
