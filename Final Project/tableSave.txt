@@ -1,0 +1,2 @@
+aaa,bbb,ccc,Laki-Laki,Supir Travel,Bekerja,
+bbb,ccc,ddd,Perempuan,Supir Rentcar,Istirahat,
