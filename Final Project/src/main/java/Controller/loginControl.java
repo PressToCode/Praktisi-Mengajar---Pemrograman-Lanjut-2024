@@ -56,8 +56,9 @@ public class loginControl {
             if(seePass.equals(String.valueOf(password))) {
                 return true;
             }
-            return false;
-        } else if(checkConnection()) {
+        }
+        
+        if(checkConnection()) {
             String typedPass = String.valueOf(password); // Security loopholes
             // Check Database { JDBC or Connector/J to MySQL adden in pom.xml }
             try {
@@ -74,7 +75,7 @@ public class loginControl {
                 while(hasilQuery.next()) {
                     if(hasilQuery.getString("userName").equals(user) && hasilQuery.getString("userPassword").equals(typedPass)) {
                         return true;
-                    }
+                    } 
                 }
                         
                 // Tutup koneksi

@@ -31,19 +31,19 @@ public class ScheduleControl<T> {
                 } catch (IOException e) {
                     javax.swing.JOptionPane.showMessageDialog(null, "Error: Gagal membuat file save");
                 }
-
-                try {
-                    PrintWriter writer = new PrintWriter(ScheduleFile);                    
-                    count = 1;                    
-                    data.forEach((n) -> {
-                        writer.append(count + ") " + n + "\n");
-                        writer.flush();
-                        count++;
-                    });
-                    writer.close();
-                } catch (FileNotFoundException ex) {
-                    javax.swing.JOptionPane.showMessageDialog(null, "Error: Gagal menyimpan");
-                }
+            }
+            
+            try {
+                PrintWriter writer = new PrintWriter(ScheduleFile);                    
+                count = 1;                    
+                data.forEach((n) -> {
+                    writer.append(count + ") " + n + "\n");
+                    writer.flush();
+                    count++;
+                });
+                writer.close();
+            } catch (FileNotFoundException ex) {
+                javax.swing.JOptionPane.showMessageDialog(null, "Error: Gagal menyimpan");
             }
         }
     }

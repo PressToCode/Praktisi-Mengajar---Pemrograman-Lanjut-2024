@@ -179,31 +179,32 @@ public class KaryawanControl {
                 } catch (IOException e) {
                     javax.swing.JOptionPane.showMessageDialog(null, "Error: Gagal membuat file save");
                 }
+            }
+            
+            try {
+                PrintWriter writer = new PrintWriter(tableFile);
+                row = karyawanTable.getRowCount();
+                column = karyawanTable.getColumnCount();
+                int count = 1;
+                for (int j = 0; j  < row; j++) {
+                    for (int i = 0; i  < column; i++) {
+                        switch(count) {
+                            case 7:
+                                writer.println();
+                                count = 1;
 
-                try {
-                    PrintWriter writer = new PrintWriter(tableFile);
-                    row = karyawanTable.getRowCount();
-                    column = karyawanTable.getColumnCount();
-                    int count = 1;
-                    for (int j = 0; j  < row; j++) {
-                        for (int i = 0; i  < column; i++) {
-                            switch(count) {
-                                case 7:
-                                    writer.println();
-                                    count = 1;
-
-                                default:
-                                    writer.append(String.valueOf(karyawanTable.getValueAt(j, i)));
-                                    writer.append(",");
-                                    count++;
-                                    break;
-                            }
+                            default:
+                                writer.append(String.valueOf(karyawanTable.getValueAt(j, i)));
+                                writer.append(",");
+                                writer.flush();
+                                count++;
+                                break;
                         }
                     }
-                    writer.close();
-                } catch (FileNotFoundException ex) {
-                    javax.swing.JOptionPane.showMessageDialog(null, "Error: Gagal menyimpan");
                 }
+                writer.close();
+            } catch (FileNotFoundException ex) {
+                javax.swing.JOptionPane.showMessageDialog(null, "Error: Gagal menyimpan");
             }
         }
     }
